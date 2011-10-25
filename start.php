@@ -13,7 +13,7 @@ function lets_init() {
 	
 	// add LETS link to
 	elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'lets_owner_block_menu');
-	
+	//TODO moderate by site admins option
 	add_group_tool_option('lets', elgg_echo('lets:enablelets'), false);
 	elgg_extend_view('groups/tool_latest', 'lets/group_module');
 }
