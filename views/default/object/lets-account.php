@@ -8,6 +8,7 @@
 $full = elgg_extract('full_view', $vars, FALSE);
 $account = elgg_extract('entity', $vars, FALSE);
 $account = new ElggLETSAccount($account->guid);
+$amount = elgg_view('output/amount', array('value' => $account->amount));
 
 if (!$account) {
 	return TRUE;
@@ -22,8 +23,6 @@ $owner_link = elgg_view('output/url', array(
 	'text' => $owner->name,
 ));
 
-$subtitle = elgg_view('output/amount', array('value' => $account->amount));
-
 $metadata = elgg_view_menu('entity', array(
 	'entity' => $vars['entity'],
 	'handler' => 'lets-account',
@@ -34,14 +33,13 @@ $metadata = elgg_view_menu('entity', array(
 
 if ($full) {
 
-	$body;
-
 	$header = elgg_view_title(elgg_echo('lets:account:owner', array($owner->name)));
 
 	$params = array(
 		'entity' => $account,
 		'title' => false,
 		'metadata' => $metadata,
+		'content' => $amount,
 	);
 	$params = $params + $vars;
 	$list_body = elgg_view('object/elements/summary', $params);
@@ -57,6 +55,8 @@ HTML;
 } else {
 	// brief view
 
+	$subtitle = $amount;
+	
 	$params = array(
 		'entity' => $account,
 		'metadata' => $metadata,

@@ -22,6 +22,9 @@ function lets_init() {
 	elgg_register_action('lets/account/create', "$action_path/account/create.php");
 	elgg_register_action('lets/account/delete', "$action_path/account/delete.php");
 	elgg_register_action('lets/transfer', "$action_path/transfer.php");
+	
+	// entity menu
+	elgg_register_plugin_hook_handler('register', 'menu:entity', 'lets_entity_menu_setup');
 }
 
 function lets_page_handler($page){
@@ -77,6 +80,36 @@ function lets_owner_block_menu($hook, $type, $return, $params) {
 			$url = "lets/group/{$params['entity']->guid}/all";
 			$item = new ElggMenuItem('blog', elgg_echo('lets:group'), $url);
 			$return[] = $item;
+		}
+	}
+
+	return $return;
+}
+
+/**
+ * Add particular blog links/info to entity menu
+ */
+function lets_entity_menu_setup($hook, $type, $return, $params) {
+	
+	$entity = $params['entity'];//var_dump($entity);
+	
+	if($entity->getType() == 'object' && $entity->getSubtype() == 'lets-account'){
+		$account = new ElggLETSAccount($entity->guid);
+		if ($account->canTransfer()) {
+			$options = array(
+				'name' => 'transfer',
+				'text' => elgg_echo('lets:transfer'),
+				'href' => "lets/transfer/$entity->guid/$entity->container_guid",
+				'priority' => 150,
+			);
+			$return[] = ElggMenuItem::factory($options);
+		}
+		
+		$to_remove = array('edit', 'delete', 'likes');
+		foreach($return as $i => $item){
+			if(in_array($item->getName(), $to_remove)){
+				unset($return[$i]);
+			}
 		}
 	}
 

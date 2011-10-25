@@ -9,7 +9,7 @@ class ElggLETSAccount extends ElggObject {
 		$account_guid = self::getAccountGUID($owner_guid, $container_guid);
 		$owner = get_entity($owner_guid);
 		error_log($account_guid);
-		if($account_guid){error_log("si");
+		if($account_guid){
 			parent::__construct($account_guid);
 			
 		} elseif($owner && $owner->getType() == 'object' && $owner->getSubtype() == 'lets-account') {
@@ -19,6 +19,7 @@ class ElggLETSAccount extends ElggObject {
 			parent::__construct();
 			$this->set('owner_guid', $owner_guid);
 			$this->set('container_guid', $container_guid);
+			$this->set('access_id', get_entity($container_guid)->group_acl);
 		}
 			
 	}
@@ -46,6 +47,16 @@ class ElggLETSAccount extends ElggObject {
 		} else {
 			return false;
 		}
+	}
+	
+	public function canTransfer($guid = NULL){
+		if(!$guid){
+			$guid = elgg_get_logged_in_user_guid();
+		}
+		
+		$user = new ElggLETSUser($guid);
+		
+		return $user->hasAccount($this->container_guid);
 	}
 	
 }
