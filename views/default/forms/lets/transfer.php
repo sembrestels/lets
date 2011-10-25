@@ -64,7 +64,7 @@ echo <<<___HTML
 
 <div class="elgg-foot">
 	$to_input
-	$action_buttons
+	$transfer_button
 </div>
 
 ___HTML;

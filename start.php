@@ -16,6 +16,12 @@ function lets_init() {
 	//TODO moderate by site admins option
 	add_group_tool_option('lets', elgg_echo('lets:enablelets'), false);
 	elgg_extend_view('groups/tool_latest', 'lets/group_module');
+	
+	// register actions
+	$action_path = elgg_get_plugins_path() . 'lets/actions/lets';
+	elgg_register_action('lets/account/create', "$action_path/account/create.php");
+	elgg_register_action('lets/account/delete', "$action_path/account/delete.php");
+	elgg_register_action('lets/transfer', "$action_path/transfer.php");
 }
 
 function lets_page_handler($page){
@@ -36,7 +42,7 @@ function lets_page_handler($page){
 			
 			$to = new ElggLETSUser($to_guid);
 			
-			if($to->acceptsCurrency($container_guid)){
+			if($to->hasAccount($container_guid)){
 				elgg_set_page_owner_guid($to->guid);
 				$content = elgg_view_form('lets/transfer', array(), array('currency' => $container_guid));
 			} else {
