@@ -4,6 +4,7 @@
  */
 
 $group = elgg_get_page_owner_entity();
+$user = new ElggLETSUser((int) elgg_get_logged_in_user_guid());
 
 if ($group->lets_enable != "yes") {
 	return true;
@@ -22,12 +23,13 @@ if (!$content) {
 	$content = '<p>' . elgg_echo('lets:none') . '</p>';
 }
 
+$action = $user->hasAccount($group->guid) ? "delete" : "create";
 $new_link = elgg_view('output/url', array(
-	'href' => "action/lets/account/create/?".http_build_query(array(
+	'href' => "action/lets/account/$action/?".http_build_query(array(
 		'owner' => elgg_get_logged_in_user_guid(),
 		'container' => $group->guid,
 	)),
-	'text' => elgg_echo('lets:account:create'),
+	'text' => elgg_echo("lets:account:$action"),
 	'is_action' => true,
 ));
 
