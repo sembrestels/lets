@@ -6,7 +6,9 @@
 
 $english = array(
 	'lets' => 'Local Exchange Trading System',
+	'lets:group' => 'Group economic system',
 	'lets:enablelets' => 'Enable group currency',
+	'lets:none' => 'Nobody is using it yet',
 );
 
 add_translation('en', $english);
