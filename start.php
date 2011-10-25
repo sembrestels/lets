@@ -20,13 +20,24 @@ function lets_init() {
 
 function lets_page_handler($page){
 	
-	switch($page[0]){
+	$page_type = $page[0];
+	
+	switch($page_type){
 		case 'group':
 			$title = elgg_echo('lets:group');
 			$params = array(
+				'title' => $title,
 				'filter' => '',
 			);
 			break;
+		case 'transfer':
+			$title = elgg_echo('lets:transfer');
+			$content = elgg_view_form('lets/transfer', array(), array('to' => $page[1]));
+			$params = array(
+				'title' => $title,
+				'content' => $content,
+				'filter' => '',
+			);
 	}
 	
 	$params['sidebar'] .= elgg_view('lets/sidebar', array('page' => $page_type));
