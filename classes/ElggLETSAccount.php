@@ -8,8 +8,8 @@ class ElggLETSAccount extends ElggObject {
 		
 		$account_guid = self::getAccountGUID($owner_guid, $container_guid);
 		$owner = get_entity($owner_guid);
-		
-		if($account_guid){
+		error_log($account_guid);
+		if($account_guid){error_log("si");
 			parent::__construct($account_guid);
 			
 		} elseif($owner && $owner->getType() == 'object' && $owner->getSubtype() == 'lets-account') {
@@ -22,6 +22,7 @@ class ElggLETSAccount extends ElggObject {
 		}
 			
 	}
+	
 	/**
 	 * Set subtype to account.
 	 */
@@ -41,6 +42,7 @@ class ElggLETSAccount extends ElggObject {
 		));
 		if(count($entities) > 0) {
 			return (int) $entites[0]->getGUID();
+			//FIXME it is a non-object when creating by second time an account
 		} else {
 			return false;
 		}

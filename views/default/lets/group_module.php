@@ -20,6 +20,7 @@ $content = elgg_list_entities(array(
 	'type' => 'object',
 	'subtype' => 'lets-account',
 	'container_guid' => $group->guid,
+	'full_view' => false,
 ));
 elgg_pop_context();
 
