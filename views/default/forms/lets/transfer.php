@@ -23,7 +23,7 @@ $currency_input = elgg_view('input/dropdown', array(
 	'name' => 'currency',
 	'id' => 'lets_currency',
 	'value' => $currency,
-	'options_values' => array()
+	'options_values' => array($currency => 'ecos')
 ));
 
 $access_label = elgg_echo('access');

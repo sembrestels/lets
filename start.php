@@ -40,10 +40,10 @@ function lets_page_handler($page){
 			);
 			break;
 		case 'transfer':
-			$to_guid = $page[1];
+			$to_username = $page[1];
 			$container_guid = $page[2];
 			
-			$to = new ElggLETSUser($to_guid);
+			$to = new ElggLETSUser($to_username);
 			
 			if($to->hasAccount($container_guid)){
 				elgg_set_page_owner_guid($to->guid);
@@ -91,7 +91,7 @@ function lets_owner_block_menu($hook, $type, $return, $params) {
  */
 function lets_entity_menu_setup($hook, $type, $return, $params) {
 	
-	$entity = $params['entity'];//var_dump($entity);
+	$entity = $params['entity'];
 	
 	if($entity->getType() == 'object' && $entity->getSubtype() == 'lets-account'){
 		$account = new ElggLETSAccount($entity->guid);
@@ -99,7 +99,7 @@ function lets_entity_menu_setup($hook, $type, $return, $params) {
 			$options = array(
 				'name' => 'transfer',
 				'text' => elgg_echo('lets:transfer'),
-				'href' => "lets/transfer/$entity->guid/$entity->container_guid",
+				'href' => $account->getTransferURL(),
 				'priority' => 150,
 			);
 			$return[] = ElggMenuItem::factory($options);
