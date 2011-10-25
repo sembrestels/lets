@@ -16,7 +16,11 @@ $all_link = elgg_view('output/url', array(
 ));
 
 elgg_push_context('widgets');
-$content = "";
+$content = elgg_list_entities(array(
+	'type' => 'object',
+	'subtype' => 'lets-account',
+	'container_guid' => $group->guid,
+));
 elgg_pop_context();
 
 if (!$content) {
