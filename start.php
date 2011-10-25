@@ -31,8 +31,19 @@ function lets_page_handler($page){
 			);
 			break;
 		case 'transfer':
+			$to_guid = $page[1];
+			$container_guid = $page[2];
+			
+			$to = new ElggLETSUser($to_guid);
+			
+			if($to->acceptsCurrency($container_guid)){
+				elgg_set_page_owner_guid($to->guid);
+				$content = elgg_view_form('lets/transfer', array(), array('currency' => $container_guid));
+			} else {
+				$content = elgg_echo('lets:error');
+			}
+			
 			$title = elgg_echo('lets:transfer');
-			$content = elgg_view_form('lets/transfer', array(), array('to' => $page[1]));
 			$params = array(
 				'title' => $title,
 				'content' => $content,

@@ -5,6 +5,7 @@
  * @package ElggLETS
  */
 
+$currency = $vars['currency']; // actually it is a container guid.
 
 $concept_label = elgg_echo('lets:concept');
 $concept_input = elgg_view('input/text', array(
@@ -21,7 +22,7 @@ $amount_input = elgg_view('input/text', array(
 $currency_input = elgg_view('input/dropdown', array(
 	'name' => 'currency',
 	'id' => 'lets_currency',
-	'value' => elgg_get_page_owner_guid(),
+	'value' => $currency,
 	'options_values' => array()
 ));
 
@@ -30,6 +31,13 @@ $access_input = elgg_view('input/access', array(
 	'name' => 'access_id',
 	'id' => 'blog_access_id',
 	'value' => $vars['access_id']
+));
+
+// hidden input
+$to_input = elgg_view('input/hidden', array(
+	'name' => 'to',
+	'id' => 'lets_to',
+	'value' => elgg_get_page_owner_guid(),
 ));
 
 $transfer_button = elgg_view('input/submit', array(
@@ -55,6 +63,7 @@ echo <<<___HTML
 </div>
 
 <div class="elgg-foot">
+	$to_input
 	$action_buttons
 </div>
 
