@@ -22,7 +22,7 @@ class ElggLETSUser extends ElggUser {
 	public function hasAccount($container_guid){
 		$group = new ElggGroup($container_guid);
 		return $group->lets_enable == 'yes'
-			&& $group->isMember($this->guid);
+			&& $group->isMember($this->guid)
 			&& check_entity_relationship($guid, 'accept_currency', $group->guid);
 	}
 }
